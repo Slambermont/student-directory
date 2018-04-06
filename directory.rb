@@ -9,13 +9,18 @@ def input_students
 
   # while the name is not empty, repeat this code
   while !name.empty? do
+    puts "Cohort:"
+    cohort = gets.chomp
     puts "Hobby:"
     hobby = gets.chomp
     puts "Country of Birth"
     country = gets.chomp
+
+    cohort = "April" if cohort.empty?
+
     # add the student hash to the array
     if name[0].downcase == "s" && name.length <= 12
-      students << {name: name, cohort: :november, hobby: hobby, country: country,}
+      students << {name: name.capitalize, cohort: cohort.capitalize, hobby: hobby.downcase, country: country.capitalize,}
       puts "Now we have #{students.count} students"
     end
     # get another name from the user
