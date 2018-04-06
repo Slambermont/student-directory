@@ -10,17 +10,18 @@ def input_students
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "Cohort:"
-    cohort = gets.chomp
+    cohort = gets.chomp.capitalize
+    cohort = "April" if cohort.empty?
     while cohort != "January" && cohort != "February" && cohort != "March" && cohort != "April" && cohort != "May" && cohort != "June" && cohort != "July" && cohort != "August" && cohort != "September" && cohort != "October" && cohort != "November" && cohort != "December"
         puts "That's not a cohort!"
         cohort = gets.chomp
+        cohort = "April" if cohort.empty?
     end
     puts "Hobby:"
     hobby = gets.chomp
-    puts "Country of Birth"
+    puts "Country of birth"
     country = gets.chomp
 
-    cohort = "April" if cohort.empty?
 
     # add the student hash to the array
     if name[0].downcase == "s" && name.length <= 12
@@ -53,10 +54,11 @@ def print(students)
   end
 
   students_by_cohort.each do |cohort, group|
-    puts cohort
+    puts "#{cohort} cohort:"
     puts group
   end
 end
+
 
 def print_footer(names)
   puts "Overall, we have #{names.count} great students starting with an 'S' with less than 12 letters in their name."
@@ -64,6 +66,8 @@ end
 
 # Call methods
 students = input_students
-print_header
-print(students)
-print_footer(students)
+unless students[0] == nil
+  print_header
+  print(students)
+  print_footer(students)
+end
