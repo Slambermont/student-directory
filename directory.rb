@@ -39,10 +39,18 @@ def print_header
 end
 
 def print(students)
-  index = 0
-  while index < students.count do
-    puts "#{index + 1}. #{students[index][:name]} (From #{students[index][:country]}, likes #{students[index][:hobby]}. #{students[index][:cohort]} cohort)"
-    index += 1
+  students_by_cohort = {}
+  students.each do |student|
+    cohort = student[:cohort]
+    if students_by_cohort[cohort] == nil
+      students_by_cohort[cohort] = []
+    end
+    students_by_cohort[cohort].push(student[:name])
+  end
+
+  students_by_cohort.each do |cohort, group|
+    puts cohort
+    puts group
   end
 end
 
