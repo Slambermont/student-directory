@@ -11,6 +11,10 @@ def input_students
   while !name.empty? do
     puts "Cohort:"
     cohort = gets.chomp
+    while cohort != "January" && cohort != "February" && cohort != "March" && cohort != "April" && cohort != "May" && cohort != "June" && cohort != "July" && cohort != "August" && cohort != "September" && cohort != "October" && cohort != "November" && cohort != "December"
+        puts "That's not a cohort!"
+        cohort = gets.chomp
+    end
     puts "Hobby:"
     hobby = gets.chomp
     puts "Country of Birth"
