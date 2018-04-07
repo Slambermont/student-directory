@@ -1,8 +1,44 @@
+@students = []
+
+# Interactive menu
+def interactive_menu
+  loop do
+    # Print menu and ask user what to do
+    print_menu
+    # Read the input and do what user asks
+    process(gets.chomp)
+  end
+end
+
+# Print menu
+def print_menu
+  puts "1. Input students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+# Define process
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    if @students[0] == nil
+      puts "There are no students yet."
+    else
+      show_students
+    end
+  when "9"
+    exit
+  else
+    puts "I don't know what you mean, try again"
+  end
+end
+
+# Option 1 : Add students
 def input_students
   puts "Please enter the student's information"
   puts "To finish, just hit return twice"
-  # create an empty array
-  students = []
   # get the info
   puts "Name:"
   name = gets.chomp
@@ -22,30 +58,32 @@ def input_students
     puts "Country of birth"
     country = gets.chomp
 
-
     # add the student hash to the array
-    if name[0].downcase == "s" && name.length <= 12
-      students << {name: name.capitalize, cohort: cohort.capitalize, hobby: hobby.downcase, country: country.capitalize,}
-      puts "Now we have #{students.count} students"
-    end
+    @students << {name: name.capitalize, cohort: cohort.capitalize, hobby: hobby.downcase, country: country.capitalize,}
+    puts "Now we have #{@students.count} students"
     # get another name from the user
     puts "Name:"
     name = gets.chomp
   end
-  #return the array of students
-  students
+
 end
 
-# Define methods
+# Option 2 : Show students
+def show_students
+  print_header
+  print_students_list
+  print_footer
+end
 
+# How to show students
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
 end
 
-def print(students)
+def print_students_list
   students_by_cohort = {}
-  students.each do |student|
+  @students.each do |student|
     cohort = student[:cohort]
     if students_by_cohort[cohort] == nil
       students_by_cohort[cohort] = []
@@ -59,35 +97,9 @@ def print(students)
   end
 end
 
-
-def print_footer(names)
-  puts "Overall, we have #{names.count} great students starting with an 'S' with less than 12 letters in their name."
+def print_footer
+  puts "Overall, we have #{@students.count} great students."
 end
 
-# interactive menu
-def interactive_menu
-  students = []
-  loop do
-    # Print menu and ask user what to do
-    puts "1. Input students"
-    puts "2. Show the students"
-    puts "9. Exit"
-    # Read the input and save into variable
-    selection = gets.chomp
-    # Do what the user asks
-    case selection
-      when "1"
-        students = input_students
-      when "2"
-        print_header
-        print(students)
-        print_footer(students)
-      when "9"
-        exit
-      else
-        puts "I don't know what you mean, try again"
-    end
-  end
-end
-
+# Run program
 interactive_menu
