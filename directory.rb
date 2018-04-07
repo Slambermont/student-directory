@@ -64,10 +64,30 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students starting with an 'S' with less than 12 letters in their name."
 end
 
-# Call methods
-students = input_students
-unless students[0] == nil
-  print_header
-  print(students)
-  print_footer(students)
+# interactive menu
+def interactive_menu
+  students = []
+  loop do
+    # Print menu and ask user what to do
+    puts "1. Input students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # Read the input and save into variable
+    selection = gets.chomp
+    # Do what the user asks
+    case selection
+      when "1"
+        students = input_students
+      when "2"
+        print_header
+        print(students)
+        print_footer(students)
+      when "9"
+        exit
+      else
+        puts "I don't know what you mean, try again"
+    end
+  end
 end
+
+interactive_menu
