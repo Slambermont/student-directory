@@ -6,7 +6,7 @@ def interactive_menu
     # Print menu and ask user what to do
     print_menu
     # Read the input and do what user asks
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -15,6 +15,7 @@ def print_menu
   puts "1. Input students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
 
@@ -31,6 +32,8 @@ def process(selection)
     end
   when "3"
     save_students
+  when "4"
+    load_students
   when "9"
     exit
   else
@@ -44,7 +47,7 @@ def input_students
   puts "To finish, just hit return twice"
   # get the info
   puts "Name:"
-  name = gets.chomp
+  name = STDIN.gets.chomp
 
   # while the name is not empty, repeat this code
   while !name.empty? do
@@ -53,20 +56,16 @@ def input_students
     cohort = "April" if cohort.empty?
     while cohort != "January" && cohort != "February" && cohort != "March" && cohort != "April" && cohort != "May" && cohort != "June" && cohort != "July" && cohort != "August" && cohort != "September" && cohort != "October" && cohort != "November" && cohort != "December"
         puts "That's not a cohort!"
-        cohort = gets.chomp
+        cohort = STDIN.gets.chomp
         cohort = "April" if cohort.empty?
     end
-    puts "Hobby:"
-    hobby = gets.chomp
-    puts "Country of birth"
-    country = gets.chomp
 
     # add the student hash to the array
-    @students << {name: name.capitalize, cohort: cohort.capitalize, hobby: hobby.downcase, country: country.capitalize,}
+    @students << {name: name.capitalize, cohort: cohort.capitalize}
     puts "Now we have #{@students.count} students"
     # get another name from the user
     puts "Name:"
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
 
 end
@@ -117,5 +116,28 @@ def save_students
   file.close
 end
 
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+      puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
+    name, cohort = line.chomp.split(",")
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end
+
+
 # Run program
+try_load_students
 interactive_menu
