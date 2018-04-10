@@ -14,8 +14,8 @@ end
 def print_menu
   puts "1. Input students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to a file"
+  puts "4. Load the list from a file"
   puts "9. Exit"
 end
 
@@ -36,8 +36,9 @@ def process(selection)
     puts "Students list saved to students.csv"
     save_students
   when "4"
-    puts "Loaded students from students.csv"
-    load_students
+    puts "Type a file name to load the data from"
+    filename = gets.chomp
+    load_students(filename)
   when "9"
     puts "Thanks for using the Student Directory!"
     exit
@@ -110,8 +111,10 @@ end
 
 # Save the data
 def save_students
+  puts "Type a file name to save your list to"
+  new_name = "#{gets.chomp}.csv"
   # Open file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(new_name.to_s, "w")
   # Iterate over array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -124,7 +127,7 @@ end
 def try_load_students
   filename = ARGV.first
   if filename.nil?
-    load_students
+    load_students("students.csv")
     puts "Loaded #{@students.count} students from students.csv"
   elsif File.exists?(filename)
     load_students(filename)
@@ -135,7 +138,7 @@ def try_load_students
   end
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
