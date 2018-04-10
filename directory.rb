@@ -78,6 +78,7 @@ end
 
 # Option 2 : Show students
 def show_students
+  print @students
   print_header
   print_students_list
   print_footer
@@ -114,12 +115,10 @@ def save_students
   puts "Type a file name to save your list to"
   new_name = "#{gets.chomp}.csv"
   # Open file for writing
-  File.open(new_name.to_s, "w") do |file|
-  # Iterate over array of students
+  CSV.open(new_name.to_s, "w") do |file|
     @students.each do |student|
       student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      file.puts student_data
     end
   end
 end
@@ -139,11 +138,10 @@ def try_load_students
 end
 
 def load_students(filename)
-  File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(",")
+  require "csv"
+  CSV.foreach(filename) do |row|
+      name, cohort = row
       add_students_to_list(name, cohort)
-    end
   end
 end
 
