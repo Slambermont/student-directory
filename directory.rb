@@ -23,18 +23,23 @@ end
 def process(selection)
   case selection
   when "1"
+    puts "Input students:"
     input_students
   when "2"
+    puts "Show students:"
     if @students[0] == nil
       puts "There are no students yet."
     else
       show_students
     end
   when "3"
+    puts "Students list saved to students.csv"
     save_students
   when "4"
+    puts "Loaded students from students.csv"
     load_students
   when "9"
+    puts "Thanks for using the Student Directory!"
     exit
   else
     puts "I don't know what you mean, try again"
@@ -55,9 +60,9 @@ def input_students
     cohort = gets.chomp.capitalize
     cohort = "April" if cohort.empty?
     while cohort != "January" && cohort != "February" && cohort != "March" && cohort != "April" && cohort != "May" && cohort != "June" && cohort != "July" && cohort != "August" && cohort != "September" && cohort != "October" && cohort != "November" && cohort != "December"
-        puts "That's not a cohort!"
-        cohort = STDIN.gets.chomp
-        cohort = "April" if cohort.empty?
+      puts "That's not a cohort!"
+      cohort = STDIN.gets.chomp
+      cohort = "April" if cohort.empty?
     end
 
     # add the student hash to the array
@@ -120,10 +125,10 @@ def try_load_students
   filename = ARGV.first
   if filename.nil?
     load_students
-    puts "Loaded #{@students.count} from students.csv"
+    puts "Loaded #{@students.count} students from students.csv"
   elsif File.exists?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} students from #{filename}"
   else
     puts "Sorry, #{filename} doesn't exist."
     exit
